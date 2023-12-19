@@ -1,0 +1,80 @@
+<%- include('partials/header'); %>    
+<form>
+    <div class="framed">
+        <table width="100%">
+            <thead>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Weight</th>
+                <th>Height</th>
+                <th>Types</th>
+                <th style="width: 150px">HP</th>
+                <th></th>
+            </thead>
+            <% for (let pokemon of player.team) { %>
+            <tr>
+                <td><img src="<%= pokemon.image %>" class="sprite" /></td>
+                <td><%= pokemon.name %></td>
+                <td><%= pokemon.weight %></td>
+                <td><%= pokemon.height %></td>
+                <td>
+                    <% for (let element of pokemon.types) { %>
+                    <img src="/images/types/<%= element %>.gif" />
+                    <% } %>
+                </td>
+                <td>
+                    <div class="progress-bar-container"><div class="progress-bar p<%=Math.floor(100 * pokemon.currentHP/pokemon.maxHP)%>" id="progressBarG"></div></div>
+                    <div style="margin-top: 5px"><%= pokemon.currentHP %>/<%= pokemon.maxHP %></div>
+                </td>
+                <td>
+                    <button formmethod="post" formaction="/player/pokemon/delete/<%= pokemon.id %>">
+                        X
+                    </button>
+                </td>
+            </tr>
+            <% } %>
+        </table>
+        <div class="poke-summary">
+            <table>
+                <tr>
+                    <th>Used types</th>
+                    <td>
+                        <img src="/images/types/grass.gif" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Largest</th>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <th>Smallest</th>
+                    <td>7</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="framed" id="allPokemon">
+        <% for (let pokemon of genOne) { %>
+            <button id="add-pokemon-<%=pokemon.id%>" formmethod="post" formaction="/player/pokemon/add/<%= pokemon.id %>">
+                <%= pokemon.name %> #<%= pokemon.id %>
+            </button>
+        <% } %>
+        
+        <div class="type-filter">
+            <a href="/player/id_1/pokemon?filter=grass#allPokemon"><img src="/images/types/grass.gif"></a>
+            <a href="/player/id_1/pokemon?filter=fire#allPokemon"><img src="/images/types/fire.gif"></a>
+            <a href="/player/id_1/pokemon?filter=bug#allPokemon"><img src="/images/types/bug.gif"></a>
+            <!-- Gebruik een for loop om over alle types te gaan. Je kan de types in een array plaatsen. -->
+
+        </div>
+    </div>
+
+    <div class="framed">
+        Welcome <%= player.name %>. What do you want to do: <br /><br />
+
+        <button id="back-button" formaction="/player">Back</button>
+    </div>
+</form>
+
+<%- include('partials/footer'); %>    
